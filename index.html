@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>:: Fetcher.js - Demo ::</title>
+    </head>
+    <body>
+
+        <script type="module">
+
+            import { HttpClient, HttpService } from './src/js/fetcher.js';
+            import demo from './src/js/demo.js';
+            
+            //const config = { baseurl: "http://localhost:5000/server.php/api", };
+            //const client = new HttpClient(config);
+            
+            const service = new HttpService(demo);
+
+            Promise.all([
+            
+                /*
+                
+                client.fetch("/fetch", {
+                    method: "POST",
+                    data: { string:"Hello World" }
+                }),
+
+                client.get("/get"),
+                client.post("/post", { post: 1 }),
+                client.put("/put", { put: 1 }),
+                client.patch("/patch", { patch: 1 }),
+                client.delete("/delete", { delete: 1 }),
+
+                */
+                service.TokenService.Get2FADevices("root@contoso.local", "root"),
+                service.TokenService.Get2FADevices({ password: "root", email: "root@contoso.local" }),
+                service.TokenService.GetAccessToken("root@contoso.local", "root", 1, "email"),
+                service.TokenService.GetRefreshToken(),
+                
+            
+            ]).then((results) => {
+                let html = ``;
+                document.getElementById("results").innerHTML = "";
+                results.map((result) => {
+                    html += `<pre style="background-color: #cdcdcd; border-radius: 7.5px; padding: 20px;">${JSON.stringify(result, null, 2)}</pre>`;
+                    console.dir(result);
+                }); document.getElementById("results").innerHTML = html;
+            }).catch((err) => { console.error(err); document.getElementById("results").innerHTML = err; });
+            
+        </script>
+        
+        <div id="results">
+            
+        </div>
+
+    </body>
+</html>

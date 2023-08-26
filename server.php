@@ -1,0 +1,1 @@
+<?php echo json_encode([ 'server' => $_SERVER, 'request' => $_REQUEST, 'headers' => apache_request_headers(), 'data' => json_decode(file_get_contents( 'php://input' )) ]);
